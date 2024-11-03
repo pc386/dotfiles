@@ -17,6 +17,7 @@ source /usr/share/nvm/init-nvm.sh
 alias edit=nvim
 alias navdev="cd ~/Documents/develop"
 alias gl="git log --oneline"
+alias checkpw="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 #stuff 
 if [ -f /usr/share/bash-completion/completions/git ]; then
   . /usr/share/bash-completion/completions/git
