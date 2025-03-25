@@ -22,3 +22,9 @@ alias checkpw="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 if [ -f /usr/share/bash-completion/completions/git ]; then
   . /usr/share/bash-completion/completions/git
 fi
+
+jsonless() {
+ cat "$1" | jq -C . | less -r
+}
+
+
