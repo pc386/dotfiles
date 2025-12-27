@@ -32,6 +32,7 @@
 ".pdf" = ""
 "code" = ""
 "thunar" = "󰉓"
+"vlc" = "󰕼"
 [other]
 fallback_icon = ""
 deduplicate_icons = true 
