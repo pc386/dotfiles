@@ -7,7 +7,7 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
+PS1='\W\$ '
 
 #my stuff
 alias cls=clear
@@ -27,4 +27,6 @@ jsonless() {
  cat "$1" | jq -C . | less -r
 }
 
+#PATH
 
+export PATH=$PATH:~/.npm-global/bin
