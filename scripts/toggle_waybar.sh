@@ -9,7 +9,8 @@ if [[ -f "$stamp" ]]; then
     last="$(cat "$stamp" 2>/dev/null || printf '0')"
 fi
 
-if (( now - last < 50 )); then
+elapsed=$((now - last))
+if (( elapsed >= 0 && elapsed < 50 )); then
     exit 0
 fi
 
