@@ -6,8 +6,10 @@ size = 12
 
 [window]
 opacity = 1.0
+dynamic_padding = true
 
 [[keyboard.bindings]]
 key = "Return"
 mods = "Shift"
 chars = "\u001B\r"
+
