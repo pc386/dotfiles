@@ -101,7 +101,7 @@
     # If value is greater than 0, separator_height will be ignored and a border
     # of size frame_width will be drawn around each notification instead.
     # Click events on gaps do not currently propagate to applications below.
-    gap_size = 0
+    gap_size = 8
 
     # Define a color for the separator.
     # possible values are:
@@ -250,7 +250,7 @@
     # corners.
     # The radius will be automatically lowered if it exceeds half of the
     # notification height to avoid clipping text and/or icons.
-    corner_radius = 0
+    corner_radius = 15
 
     # Ignore the dbus closeNotification message.
     # Useful to enforce the timeout set by dunst configuration. Without this
@@ -313,23 +313,25 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#222222"
-    foreground = "#888888"
+    background = "#000000"
+    foreground = "#a0a0a0"
+    frame_color = "#404040"
     timeout = 10
     # Icon for notifications with low urgency, uncomment to enable
     #default_icon = /path/to/icon
 
 [urgency_normal]
-    background = "#285577"
-    foreground = "#ffffff"
+    background = "#000000"
+    foreground = "#e6e6e6"
+    frame_color = "#3b82f6"
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
     #default_icon = /path/to/icon
 
 [urgency_critical]
-    background = "#900000"
+    background = "#000000"
     foreground = "#ffffff"
-    frame_color = "#ff0000"
+    frame_color = "#ff3b30"
     timeout = 0
     # Icon for notifications with critical urgency, uncomment to enable
     #default_icon = /path/to/icon
