@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "$1" = post ]; then
+  printf '0 off\n' > /proc/acpi/ibm/led
+fi

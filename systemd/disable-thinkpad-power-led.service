@@ -1,0 +1,11 @@
+[Unit]
+Description=Disable the ThinkPad power button LED
+ConditionPathExists=/proc/acpi/ibm/led
+After=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/systemd/system-sleep/disable-thinkpad-power-led post
+
+[Install]
+WantedBy=multi-user.target
