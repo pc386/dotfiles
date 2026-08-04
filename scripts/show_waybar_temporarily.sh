@@ -1,57 +1,37 @@
 #!/usr/bin/env bash
 set -u
 
-auto_hide="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/scripts/waybar_auto_hide"
-token_file="${XDG_RUNTIME_DIR:-/tmp}/waybar-temporary-show.${UID}.token"
+runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
+token_file="$runtime_dir/waybar-temporary-show.${UID}.token"
+state_file="$runtime_dir/waybar-visibility.${UID}.state"
+lock_file="$runtime_dir/waybar-visibility.${UID}.lock"
 token="$(date +%s%N)-$$"
-auto_hide_pids=()
+exec 9>"$lock_file"
 
-mapfile -t auto_hide_pids < <(pgrep -f -x -- "$auto_hide" || true)
+flock 9
+state="$(cat "$state_file" 2>/dev/null || printf 'visible')"
 
-# F12's pinned mode has no auto-hide helper, so leave an already-visible bar
-# pinned instead of scheduling an unexpected hide.
-if (( ${#auto_hide_pids[@]} == 0 )); then
-  pkill -x -SIGUSR2 waybar || true
+if [[ "$state" == "visible" ]]; then
+  rm -f "$token_file"
+  flock -u 9
   exit 0
 fi
 
 printf '%s\n' "$token" > "$token_file"
-
-for pid in "${auto_hide_pids[@]}"; do
-  kill -STOP "$pid" 2>/dev/null || true
-done
-
+printf 'temporary\n' > "$state_file"
 pkill -x -SIGUSR2 waybar || true
+flock -u 9
 
-cleanup() {
-  if [[ "$(cat "$token_file" 2>/dev/null)" != "$token" ]]; then
-    return
-  fi
+sleep 3
 
-  for pid in "${auto_hide_pids[@]}"; do
-    kill -CONT "$pid" 2>/dev/null || true
-  done
-
-  rm -f "$token_file"
-}
-trap cleanup EXIT HUP INT TERM
-
-sleep 2
-
-# A later swipe owns the timer now and will resume the helper itself.
-if [[ "$(cat "$token_file" 2>/dev/null)" != "$token" ]]; then
+flock 9
+if [[ "$(cat "$token_file" 2>/dev/null)" != "$token" ]] ||
+   [[ "$(cat "$state_file" 2>/dev/null)" != "temporary" ]]; then
+  flock -u 9
   exit 0
 fi
 
-# If F12 killed the helper to pin Waybar, do not undo that choice.
-helper_is_running=false
-for pid in "${auto_hide_pids[@]}"; do
-  if kill -0 "$pid" 2>/dev/null; then
-    helper_is_running=true
-    break
-  fi
-done
-
-if [[ "$helper_is_running" = true ]]; then
-  pkill -x -SIGUSR1 waybar || true
-fi
+pkill -x -SIGUSR1 waybar || true
+printf 'hidden\n' > "$state_file"
+rm -f "$token_file"
+flock -u 9

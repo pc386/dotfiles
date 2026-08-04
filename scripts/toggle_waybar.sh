@@ -2,7 +2,10 @@
 set -euo pipefail
 
 stamp="/tmp/waybar-toggle.${UID}.stamp"
-auto_hide="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/scripts/waybar_auto_hide"
+runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
+token_file="$runtime_dir/waybar-temporary-show.${UID}.token"
+state_file="$runtime_dir/waybar-visibility.${UID}.state"
+lock_file="$runtime_dir/waybar-visibility.${UID}.lock"
 now="$(date +%s%3N)"
 last="0"
 
@@ -16,18 +19,14 @@ if (( elapsed >= 0 && elapsed < 50 )); then
 fi
 
 printf '%s\n' "$now" > "$stamp"
+exec 9>"$lock_file"
+flock 9
+rm -f "$token_file"
+state="$(cat "$state_file" 2>/dev/null || printf 'visible')"
+pkill -x -SIGUSR1 waybar
 
-if pgrep -f -x -- "$auto_hide" >/dev/null; then
-    # Permanent mode: stop automatic signals and force the bar to be visible.
-    pkill -f -x -- "$auto_hide"
-    pkill -x -SIGUSR2 waybar
+if [[ "$state" == "hidden" ]]; then
+    printf 'visible\n' > "$state_file"
 else
-    # Auto-hide mode: restart the helper and immediately sync Waybar's state.
-    hyprctl dispatch exec "$auto_hide" >/dev/null
-
-    if hyprctl -j activeworkspace | jq -e '.windows > 0' >/dev/null; then
-        pkill -x -SIGUSR1 waybar
-    else
-        pkill -x -SIGUSR2 waybar
-    fi
+    printf 'hidden\n' > "$state_file"
 fi
