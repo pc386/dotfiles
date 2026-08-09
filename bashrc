@@ -30,3 +30,47 @@ jsonless() {
 #PATH
 
 export PATH=$PATH:~/.npm-global/bin
+
+# Use a bright, host-specific cursor color while connected over SSH.
+# OSC 112 restores Alacritty's configured cursor color when SSH exits.
+ssh() {
+  local argument destination cursor_color='' previous_int_trap
+
+  for argument in "$@"; do
+    destination=${argument##*@}
+    case "$destination" in
+      htpc)
+        cursor_color='#39FF88'
+        break
+        ;;
+      popos)
+        cursor_color='#4D9FFF'
+        break
+        ;;
+      hillside)
+        cursor_color='#FF4D67'
+        break
+        ;;
+    esac
+  done
+
+  if [[ -n $cursor_color ]]; then
+    printf '\e]12;%s\e\\' "$cursor_color"
+    previous_int_trap=$(trap -p INT)
+    trap 'printf "\e]112\e\\"; if [[ -n $previous_int_trap ]]; then eval "$previous_int_trap"; else trap - INT; fi' INT
+  fi
+
+  command ssh "$@"
+  local status=$?
+
+  if [[ -n $cursor_color ]]; then
+    if [[ -n $previous_int_trap ]]; then
+      eval "$previous_int_trap"
+    else
+      trap - INT
+    fi
+    printf '\e]112\e\\'
+  fi
+
+  return "$status"
+}
