@@ -74,6 +74,7 @@ button:hover {
 #wireplumber,
 #custom-media,
 #custom-powerusage,
+#custom-charge-threshold,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -104,6 +105,16 @@ button:hover {
     min-width: 100px;
 }
 
+#custom-charge-threshold {
+    font-family: "Symbols Nerd Font";
+    font-size: 15px;
+    padding: 0 2px 0 8px;
+}
+
+#battery {
+    padding-left: 2px;
+}
+
 #battery.warning,
 #temperature.warning {
     color: #d0d0d0;
@@ -113,6 +124,14 @@ button:hover {
 #battery.plugged,
 #power-profiles-daemon.power-saver {
     color: #eeeeee;
+}
+
+#custom-charge-threshold.on {
+    color: #a52a2a;
+}
+
+#custom-charge-threshold.off {
+    color: #add8e6;
 }
 
 #battery.critical:not(.charging),
