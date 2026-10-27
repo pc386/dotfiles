@@ -30,6 +30,8 @@ jsonless() {
 #PATH
 
 export PATH=$PATH:~/.npm-global/bin
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$HOME/.dotnet:$HOME/.dotnet/tools:$PATH"
 
 # Use a bright, host-specific cursor color while connected over SSH.
 # OSC 112 restores Alacritty's configured cursor color when SSH exits.
