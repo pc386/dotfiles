@@ -8,6 +8,7 @@ hl.monitor({
 })
 
 hl.on("hyprland.start", function()
+    hl.exec_cmd("hyprshade on warm-white")
     hl.exec_cmd("waybar -c ~/.config/waybar/waybar.conf -s ~/.config/waybar/styles.css")
     -- hl.exec_cmd("$HOME/.config/hypr/scripts/waybar_auto_hide")
     hl.exec_cmd("hypridle")
