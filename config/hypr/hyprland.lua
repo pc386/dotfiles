@@ -143,7 +143,7 @@ hl.bind(mainMod .. " + CTRL + left", hl.dsp.window.move({ into_group = "left" })
 hl.bind(mainMod .. " + CTRL + up", hl.dsp.window.move({ into_group = "up" }))
 hl.bind(mainMod .. " + CTRL + down", hl.dsp.window.move({ into_group = "down" }))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.window.move({ out_of_group = true }))
-hl.bind(mainMod .. " + CTRL + W", hl.dsp.group.lock_active())
+hl.bind(mainMod .. " + CTRL + W", hl.dsp.group.lock())
 
 local brightnessStep = [[bash -c 'current=$(brightnessctl -c backlight get); maximum=$(brightnessctl -c backlight max); percentage=$(((current * 100 + maximum / 2) / maximum)); target=$((percentage + $1)); ((percentage == 1 && $1 > 0)) && target=10; ((target < 1)) && target=1; brightnessctl -q -c backlight set "${target}%"' --]]
 
