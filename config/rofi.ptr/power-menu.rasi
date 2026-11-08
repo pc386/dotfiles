@@ -1,0 +1,59 @@
+/* Match the Fuzzel colors, with native text centering. */
+* {
+    font: "Hack 12";
+    background-color: transparent;
+    text-color: #f8f8f2ff;
+    border-color: #33ccffee;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 360px;
+    border: 1px;
+    border-radius: 10px;
+    padding: 20px 30px;
+    background-color: #000000dd;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 8px;
+}
+
+/* Only confirmations show a heading; the main menu has no input row. */
+inputbar {
+    enabled: false;
+    children: [ prompt ];
+}
+
+prompt {
+    expand: true;
+    horizontal-align: 0.5;
+}
+
+listview {
+    columns: 1;
+    fixed-height: false;
+    scrollbar: false;
+}
+
+element {
+    children: [ element-text ];
+    padding: 2px 0px;
+}
+
+element selected {
+    background-color: #44475add;
+}
+
+element-text {
+    expand: true;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    background-color: inherit;
+    text-color: inherit;
+}

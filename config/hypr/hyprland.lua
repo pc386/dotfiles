@@ -105,6 +105,7 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("alacritty"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exit())
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("$HOME/Documents/develop/dotfiles/scripts/power_menu.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float())
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 
