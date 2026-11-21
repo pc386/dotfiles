@@ -115,6 +115,10 @@ button:hover {
     padding-left: 2px;
 }
 
+#temperature {
+    padding-top: 4px;
+}
+
 #battery.warning,
 #temperature.warning {
     color: #d0d0d0;
