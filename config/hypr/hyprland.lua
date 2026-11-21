@@ -182,6 +182,13 @@ hl.window_rule({
     size = { 60, 800 },
 })
 
+-- Avoid HDR mode switches when Brave enters fullscreen with SDR video.
+hl.window_rule({
+    name = "brave-no-auto-hdr",
+    match = { class = "^brave-browser$" },
+    no_auto_hdr = true,
+})
+
 hl.window_rule({
     name = "bitwarden-browser-extension",
     match = { class = "^brave-nngceckbapebfimnlniiiahkandclblb-.*$" },
